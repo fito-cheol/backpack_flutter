@@ -21,8 +21,10 @@ void main() {
 /// If you press on a square, it will be removed.
 /// If you press anywhere else, another square will be added.
 class MyGame extends FlameGame with TapCallbacks {
+  late Sprite box;
   @override
   Future<void> onLoad() async {
+    box = await Sprite.load('box.png');
     // add(Square(size / 2));
     add(Box(Vector2(35, 35)));
     addBoxes(Vector2(105, 105), 70, 4, 3);
