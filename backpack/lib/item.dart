@@ -1,12 +1,13 @@
 import 'dart:math' as math;
 
+import 'package:backpack/main.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
 
 class Item extends RectangleComponent
-    with TapCallbacks, DragCallbacks, HoverCallbacks {
+    with TapCallbacks, DragCallbacks, HoverCallbacks, HasGameRef<MyGame> {
   static const squareSize = 30.0;
   static const borderSize = 4.0;
 
@@ -57,6 +58,13 @@ class Item extends RectangleComponent
   @override
   void onDragUpdate(DragUpdateEvent event) {
     position += event.delta;
+    gameRef.onItemDrag(this);
+  }
+
+  @override
+  void onDragEnd(DragEndEvent event) {
+    super.onDragEnd(event);
+    gameRef.onItemDragEnd();
   }
 }
 
