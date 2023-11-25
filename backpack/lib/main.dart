@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:backpack/box.dart';
+import 'package:backpack/item.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
@@ -24,10 +25,8 @@ class MyGame extends FlameGame with TapCallbacks {
   late Sprite box;
   @override
   Future<void> onLoad() async {
-    box = await Sprite.load('box.png');
-    // add(Square(size / 2));
-    add(Box(Vector2(35, 35)));
-    addBoxes(Vector2(105, 105), 70, 4, 3);
+    addBoxes(Vector2(105, 105), Box.squareSize + Box.borderSize, 4, 3);
+    add(Item(size / 2));
   }
 
   void addBoxes(startPoint, size, width, height) {
@@ -39,12 +38,12 @@ class MyGame extends FlameGame with TapCallbacks {
     }
   }
 
-  @override
-  void onTapDown(TapDownEvent event) {
-    super.onTapDown(event);
-    if (!event.handled) {
-      final touchPoint = event.canvasPosition;
-      add(Square(touchPoint));
-    }
-  }
+  // @override
+  // void onTapDown(TapDownEvent event) {
+  //   super.onTapDown(event);
+  //   if (!event.handled) {
+  //     final touchPoint = event.canvasPosition;
+  //     add(Square(touchPoint));
+  //   }
+  // }
 }
