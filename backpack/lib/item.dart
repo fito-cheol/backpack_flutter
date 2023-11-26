@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:backpack/main.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
@@ -15,20 +13,18 @@ class Item extends RectangleComponent
   static final Paint red = BasicPalette.red.paint();
   static final Paint blue = BasicPalette.blue.paint();
   static final Paint whiteTrans = BasicPalette.white.withAlpha(50).paint();
-  // interactable한 사각형 만들 수 있는 범위
-  static const List<List> _interactablePoint = [
-    [1, 1]
-  ];
+
+  ItemInfo itemInfo;
   late RectangleComponent border;
-  final ItemImage _itemImage =
-      ItemImage(Vector2(0, 0), Vector2(squareSize * 2, squareSize));
+  late final ItemImage _itemImage;
+
   // static final Anchor anchor_vector = Anchor.center; // 클릭했을 때의 중심 anchor
   // static final Vector2 item_center = Vector2(2, 2);
   // 그릴 sprite (no interaction)
 
-  List<List> get interactivePoint => _interactablePoint;
+  List<List> get interactivePoint => itemInfo.interactablePoint;
 
-  Item(Vector2 position)
+  Item(Vector2 position, {required this.itemInfo})
       : super(
           position: position,
           size: Vector2(squareSize * 2, squareSize),
@@ -38,10 +34,13 @@ class Item extends RectangleComponent
   @override
   Future<void> onLoad() async {
     super.onLoad();
+
+    _itemImage = ItemImage(Vector2(0, 0),
+        Vector2(itemInfo.width * squareSize, itemInfo.height * squareSize),
+        itemInfo: itemInfo);
     border = RectangleComponent(
         position: Vector2.all(borderSize * -0.5),
         size: Vector2(squareSize * 2 + borderSize, squareSize + borderSize),
-        // anchor: Anchor.center,
         paint: whiteTrans);
     add(border);
     add(_itemImage);
@@ -71,11 +70,26 @@ class Item extends RectangleComponent
 }
 
 class ItemImage extends SpriteComponent with HasGameRef {
-  ItemImage(Vector2 position, Vector2 size)
+  ItemInfo itemInfo;
+  ItemImage(Vector2 position, Vector2 size, {required this.itemInfo})
       : super(position: position, size: size);
   @override
   Future<void> onLoad() async {
     super.onLoad();
-    sprite = await gameRef.loadSprite('item/lucky_piggy.png');
+
+    String itemPath = 'item/${itemInfo.itemName}.png';
+    sprite = await gameRef.loadSprite(itemPath);
   }
+}
+
+class ItemInfo {
+  static ItemInfo pig = ItemInfo(itemName: 'lucky_piggy', interactablePoint: [
+    [1, 1]
+  ]);
+
+  String itemName;
+  List<List> interactablePoint;
+  get width => interactablePoint[0].length;
+  get height => interactablePoint.length;
+  ItemInfo({required this.itemName, required this.interactablePoint});
 }

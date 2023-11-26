@@ -71,8 +71,8 @@ class Board extends Component {
     }
     if (event == BoardEvent.itemHoverEnd) {
       makeTransBoxes();
-      // item 위치를 놓은자리에 두기 둘 수 있으면
-      Vector2 localPosition = item!.position - position;
+      // TODO: 놓을 수 있는 위치인지 확인하기
+      Vector2 localPosition = item.position - position;
       int xPoint = (localPosition.x / pixelSize).round();
       int yPoint = (localPosition.y / pixelSize).round();
       Vector2 newPosition = Vector2((xPoint * pixelSize).toDouble(),
