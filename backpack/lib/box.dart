@@ -19,7 +19,7 @@ class Box extends RectangleComponent
   Box({required this.squareSize, required super.position})
       : super(
           size: Vector2.all(squareSize),
-          anchor: Anchor.center,
+          anchor: Anchor.topLeft,
         );
 
   @override
@@ -38,9 +38,9 @@ class Box extends RectangleComponent
 
   makeWhite(bool yesWhite) {
     if (yesWhite) {
-      hoverBox.paint = whiteTrans;
-    } else {
       hoverBox.paint = whiteLessTrans;
+    } else {
+      hoverBox.paint = whiteTrans;
     }
   }
 }

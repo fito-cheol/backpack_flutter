@@ -16,7 +16,7 @@ class Item extends RectangleComponent
   static final Paint blue = BasicPalette.blue.paint();
   static final Paint whiteTrans = BasicPalette.white.withAlpha(50).paint();
   // interactable한 사각형 만들 수 있는 범위
-  static const List<List> interactable_point = [
+  static const List<List> _interactablePoint = [
     [1, 1]
   ];
   late RectangleComponent border;
@@ -26,11 +26,13 @@ class Item extends RectangleComponent
   // static final Vector2 item_center = Vector2(2, 2);
   // 그릴 sprite (no interaction)
 
+  List<List> get interactivePoint => _interactablePoint;
+
   Item(Vector2 position)
       : super(
           position: position,
           size: Vector2(squareSize * 2, squareSize),
-          anchor: const Anchor(0.5, 0.5),
+          anchor: Anchor.topLeft,
         );
 
   @override
@@ -64,7 +66,7 @@ class Item extends RectangleComponent
   @override
   void onDragEnd(DragEndEvent event) {
     super.onDragEnd(event);
-    gameRef.onItemDragEnd();
+    gameRef.onItemDragEnd(this);
   }
 }
 
