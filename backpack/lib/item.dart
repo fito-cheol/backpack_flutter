@@ -12,7 +12,7 @@ class Item extends RectangleComponent
   static final Paint white = BasicPalette.white.withAlpha(255).paint();
   static final Paint red = BasicPalette.red.paint();
   static final Paint blue = BasicPalette.blue.paint();
-  static final Paint whiteTrans = BasicPalette.white.withAlpha(50).paint();
+  static final Paint transparent = BasicPalette.transparent.paint();
 
   ItemInfo itemInfo;
   late RectangleComponent border;
@@ -27,35 +27,39 @@ class Item extends RectangleComponent
   Item(Vector2 position, {required this.itemInfo})
       : super(
           position: position,
-          size: Vector2(squareSize * 2, squareSize),
+          size: Vector2(
+              squareSize * itemInfo.width, squareSize * itemInfo.height),
           anchor: Anchor.topLeft,
         );
 
   @override
   Future<void> onLoad() async {
     super.onLoad();
+    paint = transparent;
+
+    // border = RectangleComponent(
+    //     position: Vector2.all(borderSize * -0.5),
+    //     size: Vector2(squareSize * itemInfo.width + borderSize,
+    //         squareSize * itemInfo.height + borderSize),
+    //     paint: transparent);
 
     _itemImage = ItemImage(
         position: Vector2(0, 0),
         size:
             Vector2(itemInfo.width * squareSize, itemInfo.height * squareSize),
         itemInfo: itemInfo);
-    border = RectangleComponent(
-        position: Vector2.all(borderSize * -0.5),
-        size: Vector2(squareSize * 2 + borderSize, squareSize + borderSize),
-        paint: whiteTrans);
-    add(border);
+    // add(border);
     add(_itemImage);
   }
 
   @override
   void onHoverEnter() {
-    border.paint = white;
+    // border.paint = white;
   }
 
   @override
   void onHoverExit() {
-    border.paint = whiteTrans;
+    // border.paint = transparent;
   }
 
   @override
@@ -73,6 +77,7 @@ class Item extends RectangleComponent
 
 class ItemImage extends SpriteComponent with HasGameRef {
   ItemInfo itemInfo;
+  // Paint paint = BasicPalette.blue.paint();
   ItemImage(
       {required this.itemInfo, required super.position, required super.size});
   @override
@@ -87,6 +92,16 @@ class ItemImage extends SpriteComponent with HasGameRef {
 class ItemInfo {
   static ItemInfo pig = ItemInfo(itemName: 'lucky_piggy', interactablePoint: [
     [1, 1]
+  ]);
+  static ItemInfo banana = ItemInfo(itemName: 'Banana', interactablePoint: [
+    [1, 0],
+    [1, 1]
+  ]);
+  static ItemInfo thronWhip =
+      ItemInfo(itemName: 'ThornWhip', interactablePoint: [
+    [1, 1, 0],
+    [0, 1, 0],
+    [0, 1, 1]
   ]);
 
   String itemName;

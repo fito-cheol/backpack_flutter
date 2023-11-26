@@ -30,6 +30,8 @@ class MyGame extends FlameGame with TapCallbacks {
         heightNum: 15);
     add(board);
     add(Item(size / 2, itemInfo: ItemInfo.pig));
+    add(Item(size / 2, itemInfo: ItemInfo.banana));
+    add(Item(size / 2, itemInfo: ItemInfo.thronWhip));
   }
 
   void onItemDrag(Item item) {
