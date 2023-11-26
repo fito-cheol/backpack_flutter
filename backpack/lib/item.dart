@@ -35,8 +35,10 @@ class Item extends RectangleComponent
   Future<void> onLoad() async {
     super.onLoad();
 
-    _itemImage = ItemImage(Vector2(0, 0),
-        Vector2(itemInfo.width * squareSize, itemInfo.height * squareSize),
+    _itemImage = ItemImage(
+        position: Vector2(0, 0),
+        size:
+            Vector2(itemInfo.width * squareSize, itemInfo.height * squareSize),
         itemInfo: itemInfo);
     border = RectangleComponent(
         position: Vector2.all(borderSize * -0.5),
@@ -71,8 +73,8 @@ class Item extends RectangleComponent
 
 class ItemImage extends SpriteComponent with HasGameRef {
   ItemInfo itemInfo;
-  ItemImage(Vector2 position, Vector2 size, {required this.itemInfo})
-      : super(position: position, size: size);
+  ItemImage(
+      {required this.itemInfo, required super.position, required super.size});
   @override
   Future<void> onLoad() async {
     super.onLoad();
